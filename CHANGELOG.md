@@ -7,7 +7,7 @@
 * Upgrade the rest-client dependency minimum version to 2.1.0.
 * Allow setting different proxy values for api connections.
 * Upgrade version for ingestion api to 2023-01-01.
-* Rename the plugin to microsoft-sentinel-log-analytics-logstash-output-plugin.
+* Rename the plugin to microsoft-sentinel-logstash-output-plugin.
 
 ## 1.1.1
 * Support China and US Government Azure sovereign clouds.
@@ -15,4 +15,4 @@
 
 ## 1.2.0
 * Added support for Managed Identity authentication on both Azure VMs and Azure Arc connected machines.
-* * Rename the plugin to microsoft-sentinel-log-analytics-logstash-output
+* * Rename the plugin to microsoft-sentinel-logstash-output

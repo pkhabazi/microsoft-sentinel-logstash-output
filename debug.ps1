@@ -1,4 +1,4 @@
-sudo gem build /home/azureuser/microsoft-sentinel-log-analytics-logstash-output/microsoft-sentinel-log-analytics-logstash-output.gemspec
+sudo gem build /home/azureuser/microsoft-sentinel-logstash-output/microsoft-sentinel-logstash-output.gemspec
 sudo /usr/share/logstash/bin/logstash-plugin install --no-verify
 sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash-to-sentinel.conf
 

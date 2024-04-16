@@ -38,10 +38,10 @@ sudo apt-mark hold logstash
 
 Please note that when using Logstash 8, it is recommended to disable ECS in the pipeline. For more information refer to [Logstash documentation.](<https://www.elastic.co/guide/en/logstash/8.4/ecs-ls.html>)
 
-To install the microsoft-sentinel-log-analytics-logstash-output, you can make use of the published gem at rubygems.com:
+To install the microsoft-sentinel-logstash-output, you can make use of the published gem at rubygems.com:
 
 ```
-sudo /usr/share/logstash/bin/logstash-plugin install microsoft-sentinel-log-analytics-logstash-output
+sudo /usr/share/logstash/bin/logstash-plugin install microsoft-sentinel-logstash-output
 ```
 
 If your machine doesn't has an active Internet connection, or you want to install the plugin manually, you can download the plugin files and perform an 'offline' installation. [Logstash Offline Plugin Management instruction](<https://www.elastic.co/guide/en/logstash/current/offline-plugins.html>).
@@ -49,7 +49,7 @@ If your machine doesn't has an active Internet connection, or you want to instal
 If you already have the plugin installed, you can check which version you have by running:
 
 ```
-sudo /usr/share/logstash/bin/logstash-plugin list --verbose microsoft-sentinel-log-analytics-logstash-output
+sudo /usr/share/logstash/bin/logstash-plugin list --verbose microsoft-sentinel-logstash-output
 ```
 
 ## 2. Create a sample file
@@ -57,7 +57,7 @@ To create a sample file, follow the following steps:
 1)	Copy the output plugin configuration below to your Logstash configuration file:
 ```
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
         create_sample_file => true
         sample_file_path => "<enter the path to the file in which the sample data will be written>" #for example: "c:\\temp" (for windows) or "/var/log" for Linux.
     }
@@ -84,7 +84,7 @@ input {
 }
 
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
         create_sample_file => true
         sample_file_path => "<enter the path to the file in which the sample data will be written>" #for example: "c:\\temp" (for windows) or "/var/log" for Linux.
     }
@@ -127,7 +127,7 @@ Here is an example for the output plugin configuration section:
 
 ```
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
         client_app_Id => "<enter your client_app_id value here>"
         client_app_secret => "<enter your client_app_secret value here>"
         tenant_id => "<enter your tenant id here>"
@@ -160,7 +160,7 @@ Here is an example for the output plugin configuration section using a Managed I
 
 ```
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
         managed_identity => true
         data_collection_endpoint => "<enter your DCE logsIngestion URI here>"
         dcr_immutable_id => "<enter your DCR immutableId here>"
@@ -192,7 +192,7 @@ input {
  filter {
 }
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
       client_app_Id => "619c1731-15ca-4403-9c61-xxxxxxxxxxxx"
       client_app_secret => "xxxxxxxxxxxxxxxx"
       tenant_id => "72f988bf-86f1-41af-91ab-xxxxxxxxxxxx"
@@ -216,7 +216,7 @@ input {
  filter {
 }
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
       client_app_Id => "619c1731-15ca-4403-9c61-xxxxxxxxxxxx"
       client_app_secret => "xxxxxxxxxxxxxxxx"
       tenant_id => "72f988bf-86f1-41af-91ab-xxxxxxxxxxxx"
@@ -236,7 +236,7 @@ input {
 }
 
 output {
-    microsoft-sentinel-log-analytics-logstash-output {
+    microsoft-sentinel-logstash-output {
       client_app_Id => "${CLIENT_APP_ID}"
       client_app_secret => "${CLIENT_APP_SECRET}"
       tenant_id => "${TENANT_ID}"

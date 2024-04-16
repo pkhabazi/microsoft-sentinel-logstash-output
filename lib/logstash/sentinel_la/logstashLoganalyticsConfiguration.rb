@@ -92,9 +92,9 @@ class LogstashLoganalyticsOutputConfiguration
 
 
     def print_missing_parameter_message_and_raise(param_name)
-        @logger.error("Missing a required setting for the microsoft-sentinel-log-analytics-logstash-output-plugin output plugin:
+        @logger.error("Missing a required setting for the microsoft-sentinel-log-analytics-logstash-output output plugin:
     output {
-        microsoft-sentinel-log-analytics-logstash-output-plugin {
+        microsoft-sentinel-log-analytics-logstash-output {
             #{param_name} => # SETTING MISSING
             ...
         }

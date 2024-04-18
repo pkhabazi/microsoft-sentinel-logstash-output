@@ -1,14 +1,23 @@
 # Microsoft Sentinel output plugin for Logstash
 
-Microsoft Sentinel provides a new output plugin for Logstash. Use this output plugin to send any log via Logstash to the Microsoft Sentinel/Log Analytics workspace. This is done with the Log Analytics DCR-based API.
-You may send logs to custom or standard tables.
+> [!IMPORTANT]
+> This project, microsoft-sentinel-logstash-output, is a specialized fork of the official Microsoft Sentinel repository, specifically tailored for the LogStash data connector with support for managed identity.
+> <br><br>
+> The code and functionality of this project align with the version approved and merged in this [pull request](https://github.com/Azure/Azure-Sentinel/pull/10032). However, due to Microsoft's plans to bring the plugin to General Availability (GA) without support for managed identity, the original PR was reverted.
+> <br><br>
+> To ensure the availability of managed identity support, we've decided to publish the connector under the new name microsoft-sentinel-logstash-output. For more context on this decision, you can read the conversation [here](https://github.com/Azure/Azure-Sentinel/issues/10109).
+> <br><br>
+> For more information please see our [blog post](https://koosg.medium.com/logstash-goes-passwordless-ec125ed2625a)
 
-Plugin version: v1.2.0
-Released on: 2024-02-23
+Microsoft Sentinel provides a new output plugin for Logstash. Use this output plugin to send any log via Logstash to the Microsoft Sentinel/Log Analytics workspace. This is done with the Log Analytics DCR-based API. This versions also includes support for managed identity.
+
+Plugin version: v1.2.3
+Released on: 2024-04-17
 
 This plugin is currently in development and is free to use. We welcome contributions from the open source community on this project, and we request and appreciate feedback from users.
 
 ## Steps to implement the output plugin
+
 1) Install the plugin
 2) Create a sample file
 3) Create the required DCR-related resources
@@ -53,6 +62,7 @@ sudo /usr/share/logstash/bin/logstash-plugin list --verbose microsoft-sentinel-l
 ```
 
 ## 2. Create a sample file
+
 To create a sample file, follow the following steps:
 1)	Copy the output plugin configuration below to your Logstash configuration file:
 ```
@@ -63,17 +73,19 @@ output {
     }
 }
 ```
+
 Note: make sure that the path exists before creating the sample file.
 2) Start Logstash. The plugin will collect up to 10 records to a sample.
 3) The file named "sampleFile<epoch seconds>.json" in the configured path will be created once there are 10 events to sample or when the Logstash process exited gracefully. (for example: "c:\temp\sampleFile1648453501.json").
 
-
 ### Configurations:
+
 The following parameters are optional and should be used to create a sample file.
 - **create_sample_file** - Boolean, False by default. When enabled, up to 10 events will be written to a sample json file.
 - **sample_file_path** - Number, Empty by default. Required when create_sample_file is enabled. Should include a valid path in which to place the sample file generated.
 
 ### Complete example
+
 1. set the pipeline.conf with the following configuration:
 ```
 input {
@@ -106,10 +118,10 @@ output {
 ```
 
 ## 3. Create the required DCR-related resources
+
 To configure Microsoft Sentinel Logstash plugin you first need to create the DCR-related resources. To create these resources, follow one of the following tutorials:
 1) To ingest the data to a custom table use [Tutorial - Send custom logs to Azure Monitor Logs (preview) - Azure Monitor | Microsoft Docs](<https://docs.microsoft.com/azure/azure-monitor/logs/tutorial-custom-logs>) tutorial. Note that as part of creating the table and the DCR you will need to provide the sample file that you've created in the previous section.
 2) To ingest the data to a standard table like Syslog or CommonSecurityLog use [Tutorial - Send custom logs to Azure Monitor Logs using resource manager templates - Azure Monitor | Microsoft Docs](<https://docs.microsoft.com/azure/azure-monitor/logs/tutorial-custom-logs-api>).
-
 
 ## 4. Configure Logstash configuration file
 
@@ -128,9 +140,7 @@ Here is an example for the output plugin configuration section:
 ```
 output {
     microsoft-sentinel-logstash-output {
-        client_app_Id => "<enter your client_app_id value here>"
-        client_app_secret => "<enter your client_app_secret value here>"
-        tenant_id => "<enter your tenant id here>"
+        managed_identity => true
         data_collection_endpoint => "<enter your DCE logsIngestion URI here>"
         dcr_immutable_id => "<enter your DCR immutableId here>"
         dcr_stream_name => "<enter your stream name here>"
@@ -174,7 +184,6 @@ output {
 Security notice: We recommend not to implicitly state client_app_Id, client_app_secret, tenant_id, data_collection_endpoint, and dcr_immutable_id in your Logstash configuration for security reasons.
                  It is best to store this sensitive information in a Logstash KeyStore as described here- ['Secrets Keystore'](<https://www.elastic.co/guide/en/logstash/current/keystore.html>)
 
-
 ## 5. Basic logs transmission
 
 Here is an example configuration that parses Syslog incoming data into a custom stream named "Custom-MyTableRawData".
@@ -193,9 +202,7 @@ input {
 }
 output {
     microsoft-sentinel-logstash-output {
-      client_app_Id => "619c1731-15ca-4403-9c61-xxxxxxxxxxxx"
-      client_app_secret => "xxxxxxxxxxxxxxxx"
-      tenant_id => "72f988bf-86f1-41af-91ab-xxxxxxxxxxxx"
+      managed_identity => true
       data_collection_endpoint => "https://my-customlogsv2-test-jz2a.eastus2-1.ingest.monitor.azure.com"
       dcr_immutable_id => "dcr-xxxxxxxxxxxxxxxxac23b8978251433a"
       dcr_stream_name => "Custom-MyTableRawData"
@@ -217,9 +224,7 @@ input {
 }
 output {
     microsoft-sentinel-logstash-output {
-      client_app_Id => "619c1731-15ca-4403-9c61-xxxxxxxxxxxx"
-      client_app_secret => "xxxxxxxxxxxxxxxx"
-      tenant_id => "72f988bf-86f1-41af-91ab-xxxxxxxxxxxx"
+      managed_identity => true
       data_collection_endpoint => "https://my-customlogsv2-test-jz2a.eastus2-1.ingest.monitor.azure.com"
       dcr_immutable_id => "dcr-xxxxxxxxxxxxxxxxac23b8978251433a"
       dcr_stream_name => "Custom-MyTableRawData"
@@ -237,9 +242,7 @@ input {
 
 output {
     microsoft-sentinel-logstash-output {
-      client_app_Id => "${CLIENT_APP_ID}"
-      client_app_secret => "${CLIENT_APP_SECRET}"
-      tenant_id => "${TENANT_ID}"
+      managed_identity => true
       data_collection_endpoint => "${DATA_COLLECTION_ENDPOINT}"
       dcr_immutable_id => "${DCR_IMMUTABLE_ID}"
       dcr_stream_name => "Custom-MyTableRawData"
